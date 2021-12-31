@@ -20,21 +20,22 @@ class Matrix
     bool InputByVal(uint r, uint c, d_type val);
     d_type** GetMat();
 
-    void operator << (const d_type& val);
-    void operator , (const d_type& val);
+    Matrix& operator << (const d_type& val);
+    Matrix& operator , (const d_type& val);
+    d_type operator [] (const std::pair<uint,uint> p);
 
     friend std::ostream &operator << (std::ostream& out, Matrix& m);
 
     //---------------------------------------------------------------------------
     // Arithmetic
-    Matrix operator+(Matrix& mat);
-    Matrix operator-(Matrix& mat);
-    Matrix operator*(Matrix& mat);
+    Matrix operator + (Matrix& mat);
+    Matrix operator - (Matrix& mat);
+    Matrix operator * (Matrix& mat);
 
-    Matrix operator+=(Matrix& mat);
-    Matrix operator-=(Matrix& mat);
-    Matrix operator*=(Matrix& mat);
-    Matrix operator=(Matrix& mat);
+    Matrix operator += (Matrix& mat);
+    Matrix operator -= (Matrix& mat);
+    Matrix operator *= (Matrix& mat);
+    Matrix operator  = (Matrix& mat);
 
     //---------------------------------------------------------------------------
     // Matrix manipulations

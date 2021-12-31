@@ -2,8 +2,6 @@
 
 #include "gtest/gtest.h"
 
-#include<iostream>
-
 //===============================================================================
 // TEST CLASS
 class MatrixTest : public ::testing::Test
@@ -35,20 +33,26 @@ class MatrixTest : public ::testing::Test
 
 //-------------------------------------------------------------------------------
 //
-TEST_F(MatrixTest, InputByVal)
+TEST(MatrixTest, InputByVal)
 {
   // Create 2x2 matrix object
   Matrix m(2,2);
 
   // Assign matrix values
-  m << 1;// , 2,
-       // 3 , 4;
+  m << 1 , 2,
+       3 , 4;
 
-  m , 2;
-  m , 3;
-  m , 4;
+  std::pair<uint,uint> idx(0,0);
+  EXPECT_EQ(m[idx], 1) << " m[0,0] != 0";
 
-  std::cout << m;
+  idx = std::make_pair(0,1);
+  EXPECT_EQ(m[idx], 2) << " m[0,0] != 0";
+
+  idx = std::make_pair(1,0);
+  EXPECT_EQ(m[idx], 3) << " m[0,0] != 0";
+
+  idx = std::make_pair(1,1);
+  EXPECT_EQ(m[idx], 4) << " m[0,0] != 0";
 
   return;
 }

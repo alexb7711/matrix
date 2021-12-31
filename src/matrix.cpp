@@ -76,12 +76,14 @@ d_type** Matrix::GetMat()
 // Output:
 //    NONE
 //
-void Matrix::operator << (const d_type& val)
+Matrix& Matrix::operator << (const d_type& val)
 {
   m_assign.first = m_assign.second = 0u;
 
   if (ValidInput(m_assign.first, m_assign.second))
     InputByVal(m_assign.first, m_assign.second, val);
+
+  return *this;
 }
 
 //---------------------------------------------------------------------------
@@ -91,7 +93,7 @@ void Matrix::operator << (const d_type& val)
 // Output:
 //    NONE
 //
-void Matrix::operator , (const d_type& val)
+Matrix& Matrix::operator , (const d_type& val)
 {
   if (++m_assign.second < m_shape.second)
     InputByVal(m_assign.first, m_assign.second, val);
@@ -104,6 +106,22 @@ void Matrix::operator , (const d_type& val)
     InputByVal(++m_assign.first, m_assign.second, val);
   }
 
+  return *this;
+}
+
+//---------------------------------------------------------------------------
+// Input:
+//    NONE
+//
+// Output:
+//    Matrix dimensions
+//
+d_type Matrix::operator [] (const std::pair<uint,uint> p)
+{
+  if (ValidInput(p.first, p.second))
+      return m_mat_vals[p.first][p.second];
+  else
+    return 0;
 }
 
 //---------------------------------------------------------------------------
