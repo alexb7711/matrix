@@ -1,8 +1,5 @@
-#include "../src/matrix.hpp"
-
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE MatrixTest
 #include <boost/test/unit_test.hpp>
+#include "../src/matrix.hpp"
 
 BOOST_AUTO_TEST_SUITE(matrix_test)
 

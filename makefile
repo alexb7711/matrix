@@ -18,7 +18,7 @@ CFLAGS = -fPIC -c -Wall -g -Os
 
 # Linking
 LD           = $(CC)
-LDFLAGS      = -lstdc++
+LDFLAGS      = -lstdc++ -lm
 LDTESTFLAGS += $(LDFLAGS) -lboost_unit_test_framework
 
 # Source files
