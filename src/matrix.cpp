@@ -154,6 +154,134 @@ std::ostream &operator << (std::ostream& out, Matrix& m)
 
 //---------------------------------------------------------------------------
 // Input:
+//    other: Other matrix to be added to this
+//
+// Output:
+//    The addition of this and other
+//
+Matrix& Matrix::operator + (Matrix& other)
+{
+  if (CheckDimAddition(*this, other))
+  {
+
+    for(uint i = 0; i < this->GetShape().first; ++i)
+    {
+      for(uint j = 0; j < this->GetShape().second; ++j)
+      {
+        m_idx idx                         = std::make_pair(i,j);
+        m_mat_vals[idx.first][idx.second] = m_mat_vals[idx.first][idx.second] + other[idx];
+      }
+    }
+  }
+
+  return *this;
+}
+
+//---------------------------------------------------------------------------
+// Input:
+//    other: Other matrix to be subracted from this
+//
+// Output:
+//    The addition of this and other
+//
+Matrix& Matrix::operator - (Matrix& other)
+{
+  return (*this) + -1*other;
+}
+
+//---------------------------------------------------------------------------
+// Input:
+//    NONE
+//
+// Output:
+//    NONE
+//
+// Matrix operator * (Matrix& mat)
+// {}
+
+//---------------------------------------------------------------------------
+// Input:
+//    val: Scalar value to multiply matrix by
+//
+// Output:
+//    The matrix multiplied by scalar
+//
+Matrix& Matrix::operator * (const d_type val)
+{
+  for (uint i = 0; i < m_shape.first; ++i)
+    for (uint j = 0; j < m_shape.second; ++j)
+      m_mat_vals[i][j] *= val;
+
+  return *this;
+}
+
+//---------------------------------------------------------------------------
+// Input:
+//    val: Scalar value to multiply matrix by
+//
+// Output:
+//    The matrix multiplied by scalar
+//
+Matrix& operator * (const d_type& val, Matrix& m)
+{
+  return m*val;
+}
+
+//---------------------------------------------------------------------------
+// Input:
+//    NONE
+//
+// Output:
+//    Matrix dimensions
+//
+// Matrix operator += (Matrix& mat)
+// {}
+
+//---------------------------------------------------------------------------
+// Input:
+//    NONE
+//
+// Output:
+//    Matrix dimensions
+//
+// Matrix operator -= (Matrix& mat)
+// {}
+
+//---------------------------------------------------------------------------
+// Input:
+//    NONE
+//
+// Output:
+//    Matrix dimensions
+//
+// Matrix operator *= (Matrix& mat)
+// {}
+
+//---------------------------------------------------------------------------
+// Input:
+//    other: Matrix to be assigned to this
+//
+// Output:
+//    This matrix
+//
+Matrix& Matrix::operator = (Matrix& other)
+{
+  DeallocateMemory();
+
+  // Reshape the matrix
+  m_idx m_shape = other.GetShape();
+
+  AllocateMemory();
+
+  // Move values from other to this
+  for (uint i = 0; i < m_shape.first; ++i)
+    memmove(m_mat_vals[i], other.GetMat()[i], sizeof(*GetMat()[0]));
+
+  return *this;
+}
+
+//---------------------------------------------------------------------------
+// Input:
 //    NONE
 //
 // Output:
@@ -235,4 +363,28 @@ void Matrix::IsInitialize()
 bool Matrix::ValidInput(uint row, uint col)
 {
   return (row < m_shape.first) && (col < m_shape.second);
+}
+
+//---------------------------------------------------------------------------
+// Input:
+//    a: Matrix a
+//    b: Matrix b
+//
+// Output:
+//    Returns true if matrix dimensions are the same, otherwise return false
+//
+bool Matrix::CheckDimAddition(Matrix& a, Matrix& b)
+{
+    return a.GetShape().first  == b.GetShape().first &&
+           a.GetShape().second == b.GetShape().second;
+}
+
+//---------------------------------------------------------------------------
+// Input:
+//
+// Output:
+//
+bool CheckDimMult()
+{
+  return true;
 }
