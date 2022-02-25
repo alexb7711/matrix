@@ -1,138 +1,127 @@
-#include"../src/matrix.hpp"
+#include "../src/matrix.hpp"
 
-#include "gtest/gtest.h"
+#define BOOST_TEST_DYN_LINK
+#define BOOST_TEST_MODULE MatrixTest
+#include <boost/test/unit_test.hpp>
 
-//===============================================================================
-// TEST CLASS
-class MatrixTest : public ::testing::Test
-{
-  protected:
-    //---------------------------------------------------------------------------
-    //
-    MatrixTest():
-      m(2,2),
-      other(2,2)
-    {}
-
-    //---------------------------------------------------------------------------
-    //
-    // ~MatrixTest() override
-    // {}
-
-    //---------------------------------------------------------------------------
-    //
-    void SetUp() override
-    {
-      // Assign matrix values
-      m << 1 , 2,
-           3 , 4;
-
-    other << 1 , 2,
-             3 , 4;
-
-      return;
-    }
-
-    //---------------------------------------------------------------------------
-    //
-    // void TearDown() override
-    // {}
-
-    //---------------------------------------------------------------------------
-    //
-    Matrix m;
-    Matrix other;
-};
-
-//===============================================================================
-// TESTS
+BOOST_AUTO_TEST_SUITE(matrix_test)
 
 //-------------------------------------------------------------------------------
 //
-TEST_F(MatrixTest, InputByVal)
+BOOST_AUTO_TEST_CASE(InputByVal)
 {
+  Matrix m(2,2);
+  Matrix other(2,2);
+
+  m << 1 , 2,
+       3 , 4;
+
+  other << 1 , 2,
+           3 , 4;
+
   std::pair<uint,uint> idx(0,0);
-  EXPECT_EQ(m[idx], 1) << " m[0,0] != 1";
+  BOOST_CHECK_EQUAL(m[idx], 1);
 
   idx = std::make_pair(0,1);
-  EXPECT_EQ(m[idx], 2) << " m[0,0] != 2";
+  BOOST_CHECK_EQUAL(m[idx], 2);
 
   idx = std::make_pair(1,0);
-  EXPECT_EQ(m[idx], 3) << " m[0,0] != 3";
+  BOOST_CHECK_EQUAL(m[idx], 3);
 
   idx = std::make_pair(1,1);
-  EXPECT_EQ(m[idx], 4) << " m[0,0] != 4";
+  BOOST_CHECK_EQUAL(m[idx], 4);
 
   return;
+
 }
 
 //-------------------------------------------------------------------------------
 //
-TEST_F(MatrixTest, Addition)
+BOOST_AUTO_TEST_CASE(Addition)
 {
+  Matrix m(2,2);
+  Matrix other(2,2);
+
+  m << 1 , 2,
+       3 , 4;
+
+  other << 1 , 2,
+           3 , 4;
+
   other = m + other;
 
   std::pair<uint,uint> idx(0,0);
-  EXPECT_EQ(m[idx], 2) << " m[0,0] != 2";
+  BOOST_CHECK_EQUAL(m[idx], 2);
 
   idx = std::make_pair(0,1);
-  EXPECT_EQ(m[idx], 4) << " m[0,0] != 4";
+  BOOST_CHECK_EQUAL(m[idx], 4);
 
   idx = std::make_pair(1,0);
-  EXPECT_EQ(m[idx], 6) << " m[0,0] != 6";
+  BOOST_CHECK_EQUAL(m[idx], 6);
 
   idx = std::make_pair(1,1);
-  EXPECT_EQ(m[idx], 8) << " m[0,0] != 8";
+  BOOST_CHECK_EQUAL(m[idx], 8);
 
   return;
 }
 
 //-------------------------------------------------------------------------------
 //
-TEST_F(MatrixTest, Subtraction)
+BOOST_AUTO_TEST_CASE(Subtraction)
 {
+  Matrix m(2,2);
+  Matrix other(2,2);
+
+  m << 1 , 2,
+       3 , 4;
+
+  other << 1 , 2,
+           3 , 4;
+
   other = m - other;
 
   std::pair<uint,uint> idx(0,0);
-  EXPECT_EQ(m[idx], 0) << " m[0,0] != 0";
+  BOOST_CHECK_EQUAL(m[idx], 0);
 
   idx = std::make_pair(0,1);
-  EXPECT_EQ(m[idx], 0) << " m[0,0] != 0";
+  BOOST_CHECK_EQUAL(m[idx], 0);
 
   idx = std::make_pair(1,0);
-  EXPECT_EQ(m[idx], 0) << " m[0,0] != 0";
+  BOOST_CHECK_EQUAL(m[idx], 0);
 
   idx = std::make_pair(1,1);
-  EXPECT_EQ(m[idx], 0) << " m[0,0] != 0";
+  BOOST_CHECK_EQUAL(m[idx], 0);
 
   return;
 }
 
 //-------------------------------------------------------------------------------
 //
-TEST_F(MatrixTest, ScalarMult)
+BOOST_AUTO_TEST_CASE(ScalarMult)
 {
+  Matrix m(2,2);
+  Matrix other(2,2);
+
+  m << 1 , 2,
+       3 , 4;
+
+  other << 1 , 2,
+           3 , 4;
+
   m = m*2;
 
   std::pair<uint,uint> idx(0,0);
-  EXPECT_EQ(m[idx], 2) << " m[0,0] != 2";
+  BOOST_CHECK_EQUAL(m[idx], 2);
 
   idx = std::make_pair(0,1);
-  EXPECT_EQ(m[idx], 4) << " m[0,0] != 4";
+  BOOST_CHECK_EQUAL(m[idx], 4);
 
   idx = std::make_pair(1,0);
-  EXPECT_EQ(m[idx], 6) << " m[0,0] != 6";
+  BOOST_CHECK_EQUAL(m[idx], 6);
 
   idx = std::make_pair(1,1);
-  EXPECT_EQ(m[idx], 8) << " m[0,0] != 8";
+  BOOST_CHECK_EQUAL(m[idx], 8);
 
   return;
 }
-
-//===============================================================================
-// RUN TESTS
-int main(int argc, char** argv)
-{
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}
+BOOST_AUTO_TEST_SUITE_END()

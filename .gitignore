@@ -1,3 +1,4 @@
+*.so
 *.o
 matrix_test
 matrix

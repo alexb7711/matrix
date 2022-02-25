@@ -1,5 +1,6 @@
 ##===============================================================================
 # Configuration
+# https://peon-developments.blogspot.com/2011/07/creating-and-using-c-shared-libraries.html
 
 # Directories
 BIN = bin
@@ -13,28 +14,28 @@ vpath %.cpp $(TST)
 
 # Compiler
 CC     = gcc
-CFLAGS = -c -Wall -g -Os
+CFLAGS = -fPIC -c -Wall -g -Os
 
 # Linking
 LD           = $(CC)
 LDFLAGS      = -lstdc++
-LDTESTFLAGS += $(LDFLAGS) -lgtest
+LDTESTFLAGS += $(LDFLAGS) -lboost_unit_test_framework
 
 # Source files
-SRC_TARGET    = $(BIN)/matrix
+SRC_TARGET    = $(BIN)/libmatrix.so
 SRC_FILES     = $(shell find ./src -name "*.cpp")
 SRC_OBJECTS  := $(patsubst %.cpp, $(OBJ)/%.o, $(notdir $(SRC_FILES)))
 
 # Test files
 TEST_TARGET   = $(BIN)/matrix_test
-TEST_FILES    = $(shell find . ! -name "main.cpp" -name "*.cpp")
+TEST_FILES    = $(shell find . ! -wholename "src/main.cpp" -name "*.cpp")
 TEST_OBJECTS := $(patsubst %.cpp, $(OBJ)/%.o, $(notdir $(TEST_FILES)))
 
 ##===============================================================================
 # Recipes
 
 ##-------------------------------------------------------------------------------
-# Class
+# Library
 
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
@@ -43,7 +44,7 @@ all: $(BIN) $(OBJ) $(SRC_TARGET)
 ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 $(SRC_TARGET): $(SRC_OBJECTS)
-	$(LD) -o $@ $^ $(LDFLAGS)
+	$(LD) -shared  -o $@ $^ $(LDFLAGS)
 
 ##-------------------------------------------------------------------------------
 # Test
@@ -56,6 +57,11 @@ test: $(BIN) $(OBJ) $(TEST_TARGET)
 #
 $(TEST_TARGET): $(TEST_OBJECTS)
 	$(LD) -o $@ $^ $(LDTESTFLAGS)
+
+##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+run_test:
+	./bin/matrix_test --report_level=detailed
 
 ##-------------------------------------------------------------------------------
 # Global

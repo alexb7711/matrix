@@ -266,12 +266,14 @@ Matrix& operator * (const d_type& val, Matrix& m)
 //
 Matrix& Matrix::operator = (Matrix& other)
 {
-  DeallocateMemory();
+  if (&other != this)
+    DeallocateMemory();
 
   // Reshape the matrix
   m_idx m_shape = other.GetShape();
 
-  AllocateMemory();
+  if (&other != this)
+    AllocateMemory();
 
   // Move values from other to this
   for (uint i = 0; i < m_shape.first; ++i)
